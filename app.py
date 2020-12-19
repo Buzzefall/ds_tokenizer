@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
-from configparser import ConfigParser
 
-from src.tokenize import Tokenizer
+from helpers.fs_utils import get_app_config
+from nlp.tokenize import Tokenizer
 
 tokenizer = Tokenizer()
-app = Flask(__name__)
+app = Flask("DS Tokenizer")
 
 
 @app.route('/tokenize', methods=['POST'])
@@ -19,7 +19,5 @@ def tokenize():
 
 
 if __name__ == '__main__':
-    config = ConfigParser()
-    config.read('configs/app.ini')
-
+    config = get_app_config()
     app.run(host=config['WEB']['host'], port=config['WEB']['port'])
