@@ -5,7 +5,7 @@ from redis.client import Redis
 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='/data/logs/service-data_loader.log')
+    logging.basicConfig(filename='/data/logs/service-data_loader.log', level=logging.INFO, filemode='r+')
 
     print("Starting Loader service...")
     logging.info("Starting Loader service...")
@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     msg = "Uploading data for processing: {0}".format(str(texts))
     print(msg)
-    logging.debug(msg)
+    logging.info(msg)
 
     redis.hset(name='texts_to_tokenize', mapping=texts)
 

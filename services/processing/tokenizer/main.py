@@ -9,7 +9,7 @@ from nlp.tokenize import Tokenizer
 def get_data(client: Redis):
     text_keys = client.hkeys('texts_to_tokenize')
     texts = client.hmget('texts_to_tokenize', text_keys)
-    logging.debug("Got {0} keys from Redis".format(len(text_keys)))
+    logging.info("Got {0} keys from Redis".format(len(text_keys)))
 
     return text_keys, texts
 
@@ -30,19 +30,19 @@ if __name__ == '__main__':
     for key, sent in zip(keys, sents):
         msg = "Tokenizing input: {0}".format(sent)
         print(msg)
-        logging.debug(msg)
+        logging.info(msg)
 
         result = tzr.process(sent)
 
         msg = "Output: {0}\n".format(result)
         print(msg)
-        logging.debug(msg)
+        logging.info(msg)
 
     for key in keys:
         redis.hdel('texts_to_tokenize', key)
 
     keys = redis.hgetall('texts_to_tokenize')
-    logging.debug("Redis contains {0} keys now".format(len(keys)))
+    logging.info("Redis contains {0} keys now".format(len(keys)))
 
     print("Shutting down Tokenizer service...")
     logging.info("Shutting down Tokenizer service...")
