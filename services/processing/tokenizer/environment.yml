@@ -1,4 +1,4 @@
-name: ds_tokenizer
+name: ds_tokenizer_compose
 channels:
   - defaults
 dependencies:

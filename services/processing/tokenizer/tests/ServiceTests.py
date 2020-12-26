@@ -1,7 +1,7 @@
 import json
 import requests
 
-from helpers.fs_utils import get_app_config
+from services.processing.tokenizer.helpers import get_app_config
 
 
 class ServiceTest:

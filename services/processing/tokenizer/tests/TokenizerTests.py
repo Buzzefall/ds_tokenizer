@@ -1,4 +1,4 @@
-from nlp.tokenize import Tokenizer
+from services.processing.tokenizer import Tokenizer
 import json
 
 

@@ -8,7 +8,7 @@ ENV PATH $APP_PATH:$PATH
 ENV PATH /opt/conda/bin:$PATH
 
 
-COPY . $APP_PATH
+COPY ../../.. $APP_PATH
 
 RUN chmod +x $APP_PATH/scripts/*.sh
 RUN conda env update -f $APP_PATH/environment.yml -n base
