@@ -19,7 +19,7 @@ if __name__ == '__main__':
     print(msg)
     logging.debug(msg)
 
-    redis.hmset(name='texts_to_tokenize', mapping=texts)
+    redis.hset(name='texts_to_tokenize', mapping=texts)
 
     print("Shutting down Tokenizer service...")
     logging.info("Shutting down Tokenizer service...")

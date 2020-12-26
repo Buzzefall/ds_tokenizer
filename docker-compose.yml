@@ -9,7 +9,7 @@ services:
 
   data_loader:
     build: services/storage/data_loader
-    command: python -m home.main
+    command: python -m main
     volumes:
       - ./data:/data
     depends_on:
@@ -17,7 +17,7 @@ services:
 
   tokenizer:
     build: services/processing/tokenizer
-    command: python -m home.main
+    command: python -m main
     volumes:
       - ./data:/data
     depends_on:

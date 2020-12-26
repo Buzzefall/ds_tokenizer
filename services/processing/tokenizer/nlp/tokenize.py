@@ -11,5 +11,8 @@ class Tokenizer:
             self.tokenizer.vocab[sw].is_stop = True
 
     def process(self, sentence):
+        if type(sentence) == bytes:
+            sentence = sentence.decode('utf-8')
+
         return ' '.join(token.text.lower() for token in self.tokenizer(sentence) if
                         not token.is_stop and not token.is_punct and not token.is_space and not token.is_digit)

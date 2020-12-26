@@ -1,4 +1,6 @@
 import logging
+import time
+
 from redis.client import Redis
 
 from nlp.tokenize import Tokenizer
@@ -6,35 +8,38 @@ from nlp.tokenize import Tokenizer
 
 def get_data(client: Redis):
     text_keys = client.hkeys('texts_to_tokenize')
+    texts = client.hmget('texts_to_tokenize', text_keys)
     logging.debug("Got {0} keys from Redis".format(len(text_keys)))
-
-    texts = client.mget(text_keys)
 
     return text_keys, texts
 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='/data/logs/service-tokenizer.log')
+    logging.basicConfig(filename='/data/logs/service-tokenizer.log', level=logging.INFO, filemode='r+')
 
     print("Starting Tokenizer service...")
     logging.info("Starting Tokenizer service...")
+    time.sleep(3)
 
     redis = Redis(host='redis', port=6379)
     keys, sents = get_data(redis)
 
-    with Tokenizer() as tzr:
-        for key, sent in zip(keys, sents):
-            msg = "Tokenizing input: {0}".format(sent)
-            print(msg)
-            logging.debug(msg)
+    print(str(keys), str(sents))
 
-            result = tzr.process(sent)
+    tzr = Tokenizer()
+    for key, sent in zip(keys, sents):
+        msg = "Tokenizing input: {0}".format(sent)
+        print(msg)
+        logging.debug(msg)
 
-            msg = "Output: {0}\n".format(result)
-            print(msg)
-            logging.debug(msg)
+        result = tzr.process(sent)
 
-    redis.hdel('texts_to_tokenize', keys)
+        msg = "Output: {0}\n".format(result)
+        print(msg)
+        logging.debug(msg)
+
+    for key in keys:
+        redis.hdel('texts_to_tokenize', key)
 
     keys = redis.hgetall('texts_to_tokenize')
     logging.debug("Redis contains {0} keys now".format(len(keys)))
