@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  redis:
+    build: services/storage/redis
+    command: redis-server
+    volumes:
+      - ./data:/data
+
+  data_loader:
+    build: services/storage/data_loader
+    command: python -m home.main
+    volumes:
+      - ./data:/data
+    depends_on:
+      - redis
+
+  tokenizer:
+    build: services/processing/tokenizer
+    command: python -m home.main
+    volumes:
+      - ./data:/data
+    depends_on:
+      - redis
+      - data_loader

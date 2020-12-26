@@ -16,6 +16,6 @@ RUN conda env update -f $APP_PATH/environment.yml -n base
 EXPOSE 7620/tcp
 
 
-#CMD python ${APP_PATH}/app.py
-#CMD python ${APP_PATH}/app.py
+#CMD python ${APP_PATH}/main.py
+#CMD python ${APP_PATH}/main.py
 CMD [ "python", "/var/www/app/app.py" ]
